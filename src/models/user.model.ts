@@ -10,7 +10,8 @@ export interface IUser {
   gender: Gender;
   preference: Gender;
   profilePhotoUrl?: string;
-  //galleryPhotoUrls?: string[];
+  galleryPhotoUrls?: string[];
+  interests?: mongoose.Types.ObjectId[];
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -33,7 +34,8 @@ const UserSchema = new Schema<IUser>(
       required: true,
     },
     profilePhotoUrl: { type: String },
-    //galleryPhotoUrls: [{ type: String }],
+    galleryPhotoUrls: [{ type: String }],
+    interests: [{ type: Schema.Types.ObjectId, ref: 'Interest' }],
   },
   { timestamps: true }
 );

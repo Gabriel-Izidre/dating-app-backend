@@ -53,7 +53,7 @@ export async function loginUser(req: Request, res: Response) {
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return res.status(401).json({ mensagem: "E-mail ou senha inválidos" });
+      return res.status(401).json({ mensagem: "Senha incorreta" });
     }
 
     const token = jwt.sign({ id: user._id, email: user.email }, JWT_SECRET, { expiresIn: "5h" });
