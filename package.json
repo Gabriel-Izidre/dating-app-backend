@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "dist/app.js",
   "scripts": {
-    "start": "nodemon --exec \"node --loader ts-node/esm\" src/app.ts",
+    "start": "nodemon --exec \"node --loader ts-node/esm\" src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Gabriel Izidre (194629)",
@@ -16,12 +16,15 @@
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongodb-memory-server": "^10.2.3",
-    "mongoose": "^8.19.2"
+    "mongoose": "^8.19.2",
+    "multer": "^2.0.2",
+    "zod": "^4.1.12"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
     "@types/express": "^5.0.5",
     "@types/jsonwebtoken": "^9.0.10",
+    "@types/multer": "^2.0.0",
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
