@@ -3,6 +3,7 @@ import path from 'path';
 import { PORT } from './config/index';
 import { connect, disconnect } from './db/mongo';
 import routes from './routes/index';
+import { logError } from './utils/logger';
 import { populateInterestsIfEmpty } from './utils/populateInterests';
 
 console.clear();
@@ -29,6 +30,7 @@ async function start() {
       process.exit(0);
     });
   } catch (err) {
+    logError(err);
     console.error('[server] Falha ao iniciar', err);
     process.exit(1);
   }

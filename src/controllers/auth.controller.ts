@@ -35,7 +35,20 @@ export async function createUser(req: Request, res: Response) {
       await newUser.save();
     }
 
-    res.status(201).json({ mensagem: 'Usuário criado com sucesso' });
+    const token = jwt.sign({ id: newUser._id, email: newUser.email }, JWT_SECRET, { expiresIn: '5h' });
+    res.status(201).json({
+      mensagem: 'Usuário criado com sucesso',
+      token,
+      user: {
+        id: newUser._id,
+        firstName: newUser.firstName,
+        lastName: newUser.lastName,
+        email: newUser.email,
+        profilePhotoUrl: newUser.profilePhotoUrl,
+        gender: newUser.gender,
+        preference: newUser.preference
+      }
+    });
     console.log('[auth.controller] Usuário criado com sucesso');
   } catch (err) {
     logError(err);

@@ -11,8 +11,6 @@ export function validate(schema: ZodType, target: Target = 'body'): RequestHandl
       return res.status(400).json({ erro: 'Dados inválidos', detalhes: result.error.issues });
     }
 
-    (req as any).validated = (req as any).validated || {};
-    (req as any).validated[target] = result.data;
     next();
   };
 }

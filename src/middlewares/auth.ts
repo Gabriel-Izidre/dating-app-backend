@@ -1,10 +1,10 @@
 import { RequestHandler } from 'express';
 import jwt from 'jsonwebtoken';
-import { JWT_SECRET } from '../config/index.js';
-import '../types/express';
+import { JWT_SECRET } from '../config/index';
+import { UserPayload } from '../interfaces/user-payload';
 
 export const authenticate: RequestHandler = (req, res, next) => {
-  const authHeader = req.headers.Authorization;
+  const authHeader = req.headers.authorization;
   if (!authHeader || typeof authHeader !== 'string') {
     return res.status(401).json({ erro: 'Cabeçalho de autorização ausente' });
   }
@@ -16,7 +16,7 @@ export const authenticate: RequestHandler = (req, res, next) => {
 
   try {
     const payload = jwt.verify(token, JWT_SECRET);
-    req.user = payload;
+    req.user = payload as UserPayload;
     next();
   } catch (err) {
     return res.status(401).json({ erro: 'Token inválido ou expirado' });
