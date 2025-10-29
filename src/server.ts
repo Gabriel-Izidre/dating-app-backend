@@ -3,6 +3,9 @@ import path from 'path';
 import { PORT } from './config/index';
 import { connect, disconnect } from './db/mongo';
 import routes from './routes/index';
+import { populateInterestsIfEmpty } from './utils/populateInterests';
+
+console.clear();
 
 const app = express();
 app.use(express.json());
@@ -13,6 +16,7 @@ async function start() {
   try {
     await connect();
     console.log('[server] Banco de dados conectado');
+    await populateInterestsIfEmpty();
 
     const server = app.listen(PORT, () => {
       console.log(`[server] Servidor rodando em http://localhost:${PORT}`);

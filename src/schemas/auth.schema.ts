@@ -3,10 +3,23 @@ import { z } from 'zod';
 export const registerSchema = z.object({
   firstName: z.string().min(3, 'Primeiro nome é obrigatório').trim(),
   lastName: z.string().min(1, 'Último nome é obrigatório').trim(),
-  dob: z.date().min(new Date('2000-01-01'), 'Data de nascimento inválida'),
+  dob: z.string()
+    .transform((str) => {
+      if (/^\d{4}-\d{2}-\d{2}$/.test(str)) return new Date(str);
+      if (/^\d{2}\/\d{2}\/\d{4}$/.test(str)) {
+        const [dia, mes, ano] = str.split('/');
+        return new Date(`${ano}-${mes}-${dia}`);
+      }
+      return new Date(str);
+    })
+    .refine((date) => date instanceof Date && !isNaN(date.getTime()), 'Data de nascimento inválida')
+    .refine((date) => date >= new Date('2000-01-01'), 'Data de nascimento inválida')
+    .transform((date) => date),
   email: z.string().email('E-mail inválido').transform((str) => str.trim().toLowerCase()),
   password: z.string().min(8, 'A senha deve ter pelo menos 8 caracteres'),
   confirmPassword: z.string().min(8, 'A confirmação de senha é obrigatória'),
+  gender: z.enum(['male', 'female'], 'Gênero é obrigatório'),
+  preference: z.enum(['male', 'female'], 'Preferência é obrigatória'),
 }).refine((data) => data.password === data.confirmPassword, {
   message: 'As senhas não coincidem',
 });

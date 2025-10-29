@@ -3,13 +3,12 @@
   "version": "1.0.0",
   "main": "dist/app.js",
   "scripts": {
-    "start": "nodemon --exec \"node --loader ts-node/esm\" src/server.ts",
+    "start": "nodemon --exec ts-node src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Gabriel Izidre (194629)",
   "license": "ISC",
   "description": "",
-  "type": "module",
   "dependencies": {
     "bcrypt": "^6.0.0",
     "dotenv": "^17.2.3",
@@ -25,6 +24,7 @@
     "@types/express": "^5.0.5",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/multer": "^2.0.0",
+    "@types/node": "^24.9.2",
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"

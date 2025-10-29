@@ -1,10 +1,9 @@
 import { Router } from 'express';
-import multer from 'multer';
 import { createUser, loginUser } from '../controllers/auth.controller';
+import upload from '../libs/multer';
 import { validate } from '../middlewares/validate';
 import { loginSchema, registerSchema } from '../schemas/auth.schema';
 
-const upload = multer({ dest: 'uploads/tmp/' });
 const router = Router();
 
 router.post('/register', upload.single('profilePhoto'), validate(registerSchema), createUser);
