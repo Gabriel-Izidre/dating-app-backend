@@ -1,10 +1,11 @@
 import { Router } from 'express';
 import InterestModel from '../models/interest.model';
 import { logError } from '../utils/logger';
+import authenticate from '../middlewares/auth';
 
 const router = Router();
 
-router.get('/', async (req, res) => {
+router.get('/', authenticate, async (req, res) => {
   try {
     console.log('[interest.router] Buscando interesses');
     const interests = await InterestModel.find();
