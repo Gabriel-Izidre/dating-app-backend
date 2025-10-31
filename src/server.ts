@@ -5,10 +5,12 @@ import { connect, disconnect } from './db/mongo';
 import routes from './routes/index';
 import { logError } from './utils/logger';
 import { populateInterestsIfEmpty } from './utils/populateInterests';
+import cors from 'cors';
 
 console.clear();
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 app.use(routes);
