@@ -14,6 +14,13 @@ export const registerSchema = z.object({
     })
     .refine((date) => date instanceof Date && !isNaN(date.getTime()), 'Data de nascimento inválida')
     .refine((date) => date >= new Date('2000-01-01'), 'Data de nascimento inválida')
+    .refine((date) => {
+      const today = new Date();
+      let age = today.getFullYear() - date.getFullYear();
+      const m = today.getMonth() - date.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < date.getDate())) age--;
+      return age >= 18;
+    }, 'É necessário ter pelo menos 18 anos')
     .transform((date) => date),
   email: z.string().email('E-mail inválido').transform((str) => str.trim().toLowerCase()),
   password: z.string().min(8, 'A senha deve ter pelo menos 8 caracteres'),
