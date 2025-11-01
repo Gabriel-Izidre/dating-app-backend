@@ -13,8 +13,8 @@ const interests = [
   { name: 'Art & Crafts', iconName: 'fa-paint-brush' },
   { name: 'Drinking', iconName: 'fa-glass-cheers' },
   { name: 'Fitness', iconName: 'fa-dumbbell' },
-  { name: 'Suggar Daddy', iconName: 'fa-' },
-  { name: 'Suggar Mommy', iconName: 'fa-' },
+  { name: 'Sugar Daddy', iconName: 'fa-money-bill-wave' },
+  { name: 'Sugar Mommy', iconName: 'fa-money-bill-wave' },
 ];
 
 export async function populateInterestsIfEmpty() {

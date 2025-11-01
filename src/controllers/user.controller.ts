@@ -70,7 +70,7 @@ export async function updateInterests(req: Request, res: Response) {
   }
 }
 
-export async function getSuggestedUsers(req: import('express').Request, res: import('express').Response) {
+export async function getSuggestedUsers(req: Request, res: Response) {
   console.log('[user.controller] Entrou em getSuggestedUsers');
 
   try {
@@ -91,8 +91,8 @@ export async function getSuggestedUsers(req: import('express').Request, res: imp
     const currentGender = currentUser.gender;
     const currentPreference = currentUser.preference;
 
-    const alreadyInteracted = await Action.find({ user: userId }).select('targetUser');
-    const interactedUserIds = alreadyInteracted.map((a: any) => a.targetUser.toString());
+    const alreadyInteracted = await Action.find({ senderId: userId }).select('targetId');
+    const interactedUserIds = alreadyInteracted.map((a: any) => a.targetId.toString());
 
     const minAge = currentAge - 3;
     const maxAge = currentAge + 3;
@@ -109,18 +109,17 @@ export async function getSuggestedUsers(req: import('express').Request, res: imp
       preference: currentGender
     })
       .populate('interests')
-      .populate('photos')
       .limit(20);
 
     const formattedUsers = users.map((user: any) => ({
       id: user._id,
-      firstname: user.firstname,
-      lastname: user.lastname,
+      firstname: user.firstName,
+      lastname: user.lastName,
       age: calculateAge(user.dob),
       gender: user.gender,
       interests: user.interests,
-      photos: user.photos,
-      profilePhoto: user.photos?.find((p: any) => p.profilePhoto)?.url || user.photos?.[0]?.url
+      profilePhoto: user.profilePhotoUrl,
+      galleryPhotos: user.galleryPhotoUrls || []
     }));
 
     return res.status(200).json({

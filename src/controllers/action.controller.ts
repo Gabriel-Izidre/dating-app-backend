@@ -15,10 +15,16 @@ export async function createAction(req: Request, res: Response) {
     }
 
     const { targetUser, type } = req.body;
-    const action = await Action.create({ user: userId, targetUser, type });
+
+    const alreadyExists = await Action.findOne({ senderId: userId, targetId: targetUser });
+    if (alreadyExists) {
+      return res.status(400).json({ mensagem: 'Ação já registrada para este usuário.' });
+    }
+
+    const action = await Action.create({ senderId: userId, targetId: targetUser, action: type });
 
     if (type === ActionType.LIKE) {
-      const previousLike = await Action.findOne({ user: targetUser, targetUser: userId, type: ActionType.LIKE });
+      const previousLike = await Action.findOne({ senderId: targetUser, targetId: userId, action: ActionType.LIKE });
       let match = null;
       if (previousLike) {
         match = await createMatch(userId, targetUser);
