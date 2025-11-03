@@ -1,16 +1,85 @@
-import UserModel from '../models/user.model';
-import InterestModel from '../models/interest.model';
-import { hashPassword } from '../libs/bcrypt';
 import { Gender } from '../enum/gender';
+import { hashPassword } from '../libs/bcrypt';
+import { saveMockUserPhotos } from '../libs/multer';
+import InterestModel from '../models/interest.model';
+import UserModel from '../models/user.model';
 
-const imagePaths = [
-  'C:\\Users\\Gabriel\\OneDrive\\Imagens\\Plano de Fundo\\25tvya5uy9751.png',
-  'C:\\Users\\Gabriel\\OneDrive\\Imagens\\Plano de Fundo\\711417.jpg',
-  'C:\\Users\\Gabriel\\OneDrive\\Imagens\\Plano de Fundo\\1123953.png',
-  'C:\\Users\\Gabriel\\OneDrive\\Imagens\\Plano de Fundo\\1125423.jpg',
-  'C:\\Users\\Gabriel\\OneDrive\\Imagens\\Plano de Fundo\\1189464.jpg',
-  'C:\\Users\\Gabriel\\OneDrive\\Imagens\\Plano de Fundo\\1270090.jpg',
-  'C:\\Users\\Gabriel\\OneDrive\\Imagens\\Plano de Fundo\\wallpapersden.com_torii-gate-paint-art_2732x2048.jpg',
+const userPhotoMocks = [
+  {
+    userId: '',
+    profilePhoto: 'profilePhoto.png',
+    galleryPhotos: ['img 1.jpg', 'Img 2.jpg']
+  },
+  {
+    userId: '',
+    profilePhoto: 'Img 2.jpg',
+    galleryPhotos: ['profilePhoto.png', 'Img 3.jpg']
+  },
+  {
+    userId: '',
+    profilePhoto: 'Img 3.jpg',
+    galleryPhotos: ['img 1.jpg', 'profilePhoto.png']
+  },
+  {
+    userId: '',
+    profilePhoto: 'img 1.jpg',
+    galleryPhotos: ['Img 2.jpg', 'Img 3.jpg']
+  },
+  {
+    userId: '',
+    profilePhoto: 'profilePhoto.png',
+    galleryPhotos: ['img 1.jpg', 'Img 3.jpg']
+  },
+  {
+    userId: '',
+    profilePhoto: 'Img 2.jpg',
+    galleryPhotos: ['profilePhoto.png', 'img 1.jpg']
+  },
+  {
+    userId: '',
+    profilePhoto: 'Img 3.jpg',
+    galleryPhotos: ['Img 2.jpg', 'profilePhoto.png']
+  },
+  {
+    userId: '',
+    profilePhoto: 'profilePhoto.png',
+    galleryPhotos: ['Img 3.jpg', 'img 1.jpg']
+  },
+  {
+    userId: '',
+    profilePhoto: 'img 1.jpg',
+    galleryPhotos: ['Img 2.jpg', 'profilePhoto.png']
+  },
+  {
+    userId: '',
+    profilePhoto: 'Img 2.jpg',
+    galleryPhotos: ['Img 3.jpg', 'img 1.jpg']
+  },
+  {
+    userId: '',
+    profilePhoto: 'Img 3.jpg',
+    galleryPhotos: ['profilePhoto.png', 'Img 2.jpg']
+  },
+  {
+    userId: '',
+    profilePhoto: 'profilePhoto.png',
+    galleryPhotos: ['img 1.jpg', 'Img 2.jpg']
+  },
+  {
+    userId: '',
+    profilePhoto: 'img 1.jpg',
+    galleryPhotos: ['Img 3.jpg', 'profilePhoto.png']
+  },
+  {
+    userId: '',
+    profilePhoto: 'Img 2.jpg',
+    galleryPhotos: ['img 1.jpg', 'Img 3.jpg']
+  },
+  {
+    userId: '',
+    profilePhoto: 'Img 3.jpg',
+    galleryPhotos: ['profilePhoto.png', 'img 1.jpg']
+  }
 ];
 
 export async function populateUsersIfEmpty() {
@@ -37,8 +106,8 @@ export async function populateUsersIfEmpty() {
         password: hashed,
         gender: Gender.Male,
         preference: Gender.Female,
-        profilePhotoUrl: imagePaths[0],
-        galleryPhotoUrls: [imagePaths[1], imagePaths[2]],
+        profilePhotoUrl: '',
+        galleryPhotoUrls: [],
         interests: [photography._id],
       },
       {
@@ -49,8 +118,8 @@ export async function populateUsersIfEmpty() {
         password: hashed,
         gender: Gender.Female,
         preference: Gender.Male,
-        profilePhotoUrl: imagePaths[1],
-        galleryPhotoUrls: [imagePaths[0], imagePaths[2]],
+        profilePhotoUrl: '',
+        galleryPhotoUrls: [],
         interests: [photography._id],
       },
       {
@@ -61,8 +130,8 @@ export async function populateUsersIfEmpty() {
         password: hashed,
         gender: Gender.Male,
         preference: Gender.Male,
-        profilePhotoUrl: imagePaths[2],
-        galleryPhotoUrls: [imagePaths[0], imagePaths[1]],
+        profilePhotoUrl: '',
+        galleryPhotoUrls: [],
         interests: [photography._id],
       },
       {
@@ -73,8 +142,32 @@ export async function populateUsersIfEmpty() {
         password: hashed,
         gender: Gender.Female,
         preference: Gender.Female,
-        profilePhotoUrl: imagePaths[3],
-        galleryPhotoUrls: [imagePaths[4], imagePaths[5]],
+        profilePhotoUrl: '',
+        galleryPhotoUrls: [],
+        interests: [photography._id],
+      },
+      {
+        firstName: 'Ana',
+        lastName: 'Rodrigues',
+        email: 'ana.photography@example.com',
+        dob: new Date('2001-12-15'),
+        password: hashed,
+        gender: Gender.Female,
+        preference: Gender.Male,
+        profilePhotoUrl: '',
+        galleryPhotoUrls: [],
+        interests: [photography._id],
+      },
+      {
+        firstName: 'João',
+        lastName: 'Oliveira',
+        email: 'joao.photography@example.com',
+        dob: new Date('2003-03-22'),
+        password: hashed,
+        gender: Gender.Male,
+        preference: Gender.Female,
+        profilePhotoUrl: '',
+        galleryPhotoUrls: [],
         interests: [photography._id],
       },
 
@@ -87,8 +180,8 @@ export async function populateUsersIfEmpty() {
         password: hashed,
         gender: Gender.Male,
         preference: Gender.Female,
-        profilePhotoUrl: imagePaths[4],
-        galleryPhotoUrls: [imagePaths[5], imagePaths[6]],
+        profilePhotoUrl: '',
+        galleryPhotoUrls: [],
         interests: [travelling._id],
       },
       {
@@ -99,8 +192,8 @@ export async function populateUsersIfEmpty() {
         password: hashed,
         gender: Gender.Female,
         preference: Gender.Male,
-        profilePhotoUrl: imagePaths[5],
-        galleryPhotoUrls: [imagePaths[4], imagePaths[6]],
+        profilePhotoUrl: '',
+        galleryPhotoUrls: [],
         interests: [travelling._id],
       },
       {
@@ -111,14 +204,104 @@ export async function populateUsersIfEmpty() {
         password: hashed,
         gender: Gender.Male,
         preference: Gender.Male,
-        profilePhotoUrl: imagePaths[6],
-        galleryPhotoUrls: [imagePaths[3], imagePaths[4]],
+        profilePhotoUrl: '',
+        galleryPhotoUrls: [],
         interests: [travelling._id],
+      },
+      {
+        firstName: 'Isabella',
+        lastName: 'Martins',
+        email: 'isabella.travelling@example.com',
+        dob: new Date('2002-08-18'),
+        password: hashed,
+        gender: Gender.Female,
+        preference: Gender.Female,
+        profilePhotoUrl: '',
+        galleryPhotoUrls: [],
+        interests: [travelling._id],
+      },
+      {
+        firstName: 'Diego',
+        lastName: 'Carvalho',
+        email: 'diego.travelling@example.com',
+        dob: new Date('2001-11-05'),
+        password: hashed,
+        gender: Gender.Male,
+        preference: Gender.Female,
+        profilePhotoUrl: '',
+        galleryPhotoUrls: [],
+        interests: [travelling._id],
+      },
+      {
+        firstName: 'Sophia',
+        lastName: 'Lima',
+        email: 'sophia.travelling@example.com',
+        dob: new Date('2004-01-27'),
+        password: hashed,
+        gender: Gender.Female,
+        preference: Gender.Male,
+        profilePhotoUrl: '',
+        galleryPhotoUrls: [],
+        interests: [travelling._id],
+      },
+
+      // Usuários com ambos os interesses
+      {
+        firstName: 'Gabriel',
+        lastName: 'Mendes',
+        email: 'gabriel.both@example.com',
+        dob: new Date('2002-05-13'),
+        password: hashed,
+        gender: Gender.Male,
+        preference: Gender.Female,
+        profilePhotoUrl: '',
+        galleryPhotoUrls: [],
+        interests: [photography._id, travelling._id],
+      },
+      {
+        firstName: 'Valentina',
+        lastName: 'Barbosa',
+        email: 'valentina.both@example.com',
+        dob: new Date('2003-10-08'),
+        password: hashed,
+        gender: Gender.Female,
+        preference: Gender.Male,
+        profilePhotoUrl: '',
+        galleryPhotoUrls: [],
+        interests: [photography._id, travelling._id],
+      },
+      {
+        firstName: 'Pedro',
+        lastName: 'Araújo',
+        email: 'pedro.both@example.com',
+        dob: new Date('2001-07-19'),
+        password: hashed,
+        gender: Gender.Male,
+        preference: Gender.Male,
+        profilePhotoUrl: '',
+        galleryPhotoUrls: [],
+        interests: [photography._id, travelling._id],
       },
     ];
 
-    await UserModel.insertMany(usersData);
-    console.log('[seed] Usuários mockados populados');
+    const savedUsers = await UserModel.insertMany(usersData);
+
+    savedUsers.forEach((user, index) => {
+      if (index < userPhotoMocks.length) {
+        const photoMock = { ...userPhotoMocks[index], userId: user._id.toString() };
+        const { profilePhotoUrl, galleryPhotoUrls } = saveMockUserPhotos(photoMock);
+
+        UserModel.updateOne(
+          { _id: user._id },
+          {
+            profilePhotoUrl: profilePhotoUrl,
+            galleryPhotoUrls: galleryPhotoUrls
+          }
+        ).exec();
+      }
+    });
+
+    console.log('[seed] Usuários mockados populados com fotos');
   }
 }
 

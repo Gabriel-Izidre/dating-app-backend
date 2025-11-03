@@ -76,7 +76,19 @@ export async function loginUser(req: Request, res: Response) {
     }
 
     const token = jwt.sign({ id: user._id, email: user.email }, JWT_SECRET, { expiresIn: '5h' });
-    res.status(200).json({ mensagem: 'Login realizado com sucesso', token });
+    res.status(200).json({
+      mensagem: 'Login realizado com sucesso',
+      token,
+      user: {
+        id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        profilePhotoUrl: user.profilePhotoUrl,
+        gender: user.gender,
+        preference: user.preference
+      }
+    });
     console.log('[auth.controller] Login realizado com sucesso');
   } catch (err) {
     logError(err);

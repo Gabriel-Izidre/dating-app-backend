@@ -1,6 +1,7 @@
 import fs from 'fs';
 import multer from 'multer';
 import path from 'path';
+import { UserPhotoMock } from '../interfaces/user-photo-mock';
 
 const tmpDir = path.join(__dirname, '../../uploads/tmp');
 if (!fs.existsSync(tmpDir)) {
@@ -40,6 +41,36 @@ export function saveUserPhotos(userId: string, filePaths: string[]): string[] {
     movedPaths.push(`/uploads/${userId}/${fileName}`);
   }
   return movedPaths;
+}
+
+export function saveMockUserPhotos(userPhotoMock: UserPhotoMock): { profilePhotoUrl: string; galleryPhotoUrls: string[] } {
+  const userDir = path.join(__dirname, '../../uploads', userPhotoMock.userId);
+  if (!fs.existsSync(userDir)) {
+    fs.mkdirSync(userDir, { recursive: true });
+  }
+
+  const seedImagesDir = path.join(__dirname, '../seeds/img');
+
+  const profileSrc = path.join(seedImagesDir, userPhotoMock.profilePhoto);
+  const profileDest = path.join(userDir, 'profile.jpg');
+  if (fs.existsSync(profileSrc)) {
+    fs.copyFileSync(profileSrc, profileDest);
+  }
+
+  const galleryUrls: string[] = [];
+  userPhotoMock.galleryPhotos.forEach((photoName, index) => {
+    const gallerySrc = path.join(seedImagesDir, photoName);
+    const galleryDest = path.join(userDir, `gallery_${index + 1}.jpg`);
+    if (fs.existsSync(gallerySrc)) {
+      fs.copyFileSync(gallerySrc, galleryDest);
+      galleryUrls.push(`/uploads/${userPhotoMock.userId}/gallery_${index + 1}.jpg`);
+    }
+  });
+
+  return {
+    profilePhotoUrl: `/uploads/${userPhotoMock.userId}/profile.jpg`,
+    galleryPhotoUrls: galleryUrls
+  };
 }
 
 const upload = multer({ storage });
